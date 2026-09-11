@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jelly Bloom Studio — Book a Class</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6EFE2;
+    --paper:#FFFCF6;
+    --ink:#2A2118;
+    --ink-soft:#5B4F42;
+    --line: rgba(42,33,24,0.14);
+    --berry:#B23A55;
+    --berry-ink:#6E1F31;
+    --mango:#E2932E;
+    --mango-ink:#7A4B10;
+    --jade:#3C7A5D;
+    --jade-ink:#1F4433;
+    --violet:#7B5AA6;
+    --violet-ink:#402A5C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;margin:0;letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+
+  @keyframes wobble{
+    0%,100%{border-radius:63% 37% 54% 46% / 43% 41% 59% 57%;}
+    50%{border-radius:40% 60% 46% 54% / 58% 47% 53% 42%;}
+  }
+  .blob{animation:wobble 9s ease-in-out infinite;}
+  @media (prefers-reduced-motion: reduce){.blob{animation:none;}}
+
+  nav{position:sticky;top:0;z-index:20;background:rgba(246,239,226,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:20px;}
+  .logo-mark{width:26px;height:26px;background:var(--berry);flex-shrink:0;}
+  nav .links{display:flex;gap:26px;font-size:14px;}
+  nav .links a{text-decoration:none;color:var(--ink-soft);}
+  nav .links a:hover{color:var(--ink);}
+  .btn-cta{background:var(--berry);color:#FBEFF1;padding:9px 18px;font-size:14px;text-decoration:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;}
+
+  header.hero{padding:76px 0 60px;position:relative;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;}
+  .hero h1{font-size:52px;line-height:1.05;}
+  .hero h1 em{font-style:italic;color:var(--berry);}
+  .hero p.lede{font-size:18px;color:var(--ink-soft);max-width:440px;margin:20px 0 28px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{background:var(--ink);color:var(--cream);padding:14px 24px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-secondary{background:transparent;color:var(--ink);padding:14px 24px;font-size:15px;font-weight:600;border:1.5px solid var(--ink);cursor:pointer;font-family:'Inter',sans-serif;}
+  .hero-visual{position:relative;height:320px;}
+  .hero-blob{position:absolute;width:260px;height:260px;top:20px;left:60px;background:var(--berry);opacity:0.92;}
+  .hero-blob.b2{width:140px;height:140px;background:var(--mango);top:180px;left:0;opacity:0.9;animation-delay:-3s;}
+  .hero-blob.b3{width:110px;height:110px;background:var(--jade);top:0;left:220px;opacity:0.9;animation-delay:-6s;}
+
+  .stat-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper);}
+  .stat-strip .wrap{display:flex;justify-content:space-between;padding:26px 28px;flex-wrap:wrap;gap:20px;}
+  .stat{text-align:left;}
+  .stat .num{font-family:'Fraunces',serif;font-size:26px;}
+  .stat .label{font-size:13px;color:var(--ink-soft);}
+
+  section{padding:70px 0;}
+  .section-head{max-width:560px;margin-bottom:40px;}
+  .section-head .eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:0.08em;color:var(--berry-ink);font-weight:600;font-family:'IBM Plex Mono',monospace;}
+  .section-head h2{font-size:34px;margin-top:10px;}
+  .section-head p{color:var(--ink-soft);margin-top:12px;}
+
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .gallery-card{text-align:center;}
+  .gallery-blob{width:100%;aspect-ratio:1;background:var(--berry);position:relative;}
+  .gallery-card:nth-child(2) .gallery-blob{background:var(--mango);animation-delay:-2s;}
+  .gallery-card:nth-child(3) .gallery-blob{background:var(--jade);animation-delay:-4s;}
+  .gallery-card:nth-child(4) .gallery-blob{background:var(--violet);animation-delay:-6s;}
+  .gallery-blob::after{content:'';position:absolute;top:14%;left:18%;width:30%;height:22%;background:rgba(255,255,255,0.35);border-radius:50%;filter:blur(2px);}
+  .gallery-card .name{font-family:'Fraunces',serif;font-size:16px;margin-top:14px;font-style:italic;}
+
+  .steps{counter-reset:step;display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+  .step{border-top:2px solid var(--ink);padding-top:16px;}
+  .step .idx{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--berry-ink);}
+  .step h3{font-size:19px;margin:8px 0 8px;}
+  .step p{color:var(--ink-soft);font-size:14.5px;}
+
+  .booking-panel{background:var(--paper);border:1px solid var(--line);padding:36px;}
+  .date-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:14px;margin-bottom:26px;}
+  .date-chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;padding:12px 16px;cursor:pointer;text-align:center;min-width:78px;font-family:'IBM Plex Mono',monospace;}
+  .date-chip .d{font-size:11px;color:var(--ink-soft);text-transform:uppercase;}
+  .date-chip .n{font-size:20px;font-family:'Fraunces',serif;color:var(--ink);}
+  .date-chip.active{background:var(--ink);border-color:var(--ink);}
+  .date-chip.active .d, .date-chip.active .n{color:var(--cream);}
+
+  .slots{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .slot-card{background:#fff;border:1px solid var(--line);padding:22px;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+  .slot-card:hover{transform:rotate(-0.6deg) translateY(-2px);}
+  .slot-time{font-family:'Fraunces',serif;font-size:22px;}
+  .slot-meta{font-size:13px;color:var(--ink-soft);margin:6px 0 16px;font-family:'IBM Plex Mono',monospace;}
+  .seats-bar{height:6px;background:var(--line);margin-bottom:14px;overflow:hidden;}
+  .seats-fill{height:100%;background:var(--jade);}
+  .seats-fill.full{background:var(--berry);}
+  .slot-book{width:100%;padding:11px;background:var(--ink);color:var(--cream);border:none;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
+  .slot-book:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
+
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(42,33,24,0.5);z-index:50;align-items:center;justify-content:center;padding:20px;}
+  .modal-bg.open{display:flex;}
+  .modal{background:var(--paper);max-width:440px;width:100%;padding:32px;max-height:90vh;overflow-y:auto;}
+  .modal h3{font-size:24px;margin-bottom:6px;}
+  .modal .sub{font-size:13px;color:var(--ink-soft);margin-bottom:22px;font-family:'IBM Plex Mono',monospace;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line);background:#fff;font-family:'Inter',sans-serif;font-size:14px;}
+  .field textarea{resize:vertical;min-height:60px;}
+  .deposit-note{background:var(--cream);border:1px dashed var(--ink-soft);padding:14px;font-size:13px;color:var(--ink-soft);margin:18px 0;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;}
+  .modal-close{background:transparent;border:1px solid var(--line);padding:11px 16px;cursor:pointer;font-family:'Inter',sans-serif;}
+  .form-error{color:var(--berry-ink);font-size:13px;margin-top:-8px;margin-bottom:14px;display:none;}
+
+  .confirm-view{text-align:center;padding:10px 0;}
+  .confirm-blob{width:90px;height:90px;background:var(--jade);margin:0 auto 20px;}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer p{font-size:13px;color:var(--ink-soft);}
+  .dash-toggle{background:transparent;border:1px solid var(--line);padding:9px 14px;font-size:13px;cursor:pointer;font-family:'IBM Plex Mono',monospace;}
+
+  #dashboard{display:none;padding:50px 0;border-top:1px solid var(--line);background:var(--paper);}
+  #dashboard.open{display:block;}
+  #dashboard table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  #dashboard th,#dashboard td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);}
+  #dashboard th{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;color:var(--ink-soft);}
+  .empty-row td{color:var(--ink-soft);font-style:italic;}
+  .clear-btn{font-size:12px;color:var(--berry-ink);background:none;border:none;cursor:pointer;text-decoration:underline;margin-top:16px;}
+
+  @media (max-width:760px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{display:none;}
+    .hero h1{font-size:38px;}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .steps{grid-template-columns:1fr;}
+    .slots{grid-template-columns:1fr;}
+    nav .links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark blob"></span>Jelly Bloom Studio</div>
+    <div class="links">
+      <a href="#gallery">Gallery</a>
+      <a href="#how">How it works</a>
+      <a href="#book">Book</a>
+    </div>
+    <button class="btn-cta" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Book a class</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Turn a bowl of jelly into <em>a sculpture</em>.</h1>
+      <p class="lede">A hands-on 3D jelly art class for small groups. Bring three friends, spend an afternoon layering agar and flower canes, and leave with a piece you made yourself.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">See open dates</button>
+        <a href="#how"><button class="btn-secondary">How it works</button></a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-blob blob"></div>
+      <div class="hero-blob b2 blob"></div>
+      <div class="hero-blob b3 blob"></div>
+    </div>
+  </div>
+</header>
+
+<div class="stat-strip">
+  <div class="wrap">
+    <div class="stat"><div class="num">4</div><div class="label">seats per class, so it stays hands-on</div></div>
+    <div class="stat"><div class="num">3.5 hrs</div><div class="label">start to finish, piece included</div></div>
+    <div class="stat"><div class="num">0</div><div class="label">experience needed to walk in</div></div>
+    <div class="stat"><div class="num">1</div><div class="label">jelly sculpture to take home</div></div>
+  </div>
+</div>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Past pieces</div>
+      <h2>What students have made</h2>
+      <p>Every class starts from a base technique, then goes wherever your color and flower choices take it.</p>
+    </div>
+    <div class="gallery">
+      <div class="gallery-card"><div class="gallery-blob blob"></div><div class="name">Rose Garden Cascade</div></div>
+      <div class="gallery-card"><div class="gallery-blob blob"></div><div class="name">Citrus Sunburst</div></div>
+      <div class="gallery-card"><div class="gallery-blob blob"></div><div class="name">Emerald Koi Pond</div></div>
+      <div class="gallery-card"><div class="gallery-blob blob"></div><div class="name">Violet Dusk Bloom</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The class</div>
+      <h2>How the afternoon runs</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="idx">01</div><h3>Base and color</h3><p>Mix and set your clear agar base, then choose from small-batch dyed jelly for your flowers.</p></div>
+      <div class="step"><div class="idx">02</div><h3>Sculpt the flowers</h3><p>Learn needle and cane techniques to build petals, leaves, and layers inside the gel.</p></div>
+      <div class="step"><div class="idx">03</div><h3>Set and take home</h3><p>Your piece chills while we pack it for travel. Walk out with your own jelly sculpture.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Book a class</div>
+      <h2>Pick a date</h2>
+      <p>Classes run Fri, Sat and Sun. Each session holds 4 seats total — book solo or bring your group.</p>
+    </div>
+    <div class="booking-panel">
+      <div class="date-row" id="dateRow"></div>
+      <div class="slots" id="slotsRow"></div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Jelly Bloom Studio · Reply to your confirmation email with questions.</p>
+    <button class="dash-toggle" onclick="toggleDashboard()">Studio dashboard</button>
+  </div>
+</footer>
+
+<div id="dashboard">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Studio only</div>
+      <h2>All bookings</h2>
+      <p>This view shows every booking currently stored for this site, across all visitors.</p>
+    </div>
+    <table id="dashTable">
+      <thead><tr><th>Date</th><th>Slot</th><th>Seats</th><th>Name</th><th>Contact</th><th>Pax</th><th>Notes</th></tr></thead>
+      <tbody id="dashBody"></tbody>
+    </table>
+    <button class="clear-btn" onclick="clearAllBookings()">Clear all demo bookings</button>
+  </div>
+</div>
+
+<script>
+const CAPACITY = 4;
+const STORAGE_KEY = 'bookings-data';
+const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ALLOWED_DAYS = [5,6,0];
+const SLOT_DEFS = [
+  {id:'morning', label:'10:00 AM – 1:30 PM'},
+  {id:'afternoon', label:'2:30 PM – 6:00 PM'}
+];
+
+let dates = [];
+let selectedDateISO = null;
+let bookingsData = {};
+let pendingSlot = null;
+
+function isoDate(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function generateDates(){
+  const out = [];
+  let d = new Date();
+  d.setDate(d.getDate()+1);
+  let guard = 0;
+  while(out.length < 12 && guard < 90){
+    if(ALLOWED_DAYS.includes(d.getDay())){
+      out.push(new Date(d));
+    }
+    d.setDate(d.getDate()+1);
+    guard++;
+  }
+  return out;
+}
+
+async function loadBookings(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, true);
+    bookingsData = res && res.value ? JSON.parse(res.value) : {};
+  }catch(e){
+    bookingsData = {};
+  }
+}
+
+async function saveBookings(){
+  await window.storage.set(STORAGE_KEY, JSON.stringify(bookingsData), true);
+}
+
+function slotBookedPax(dateISO, slotId){
+  const key = dateISO + '_' + slotId;
+  const arr = bookingsData[key] || [];
+  return arr.reduce((sum,b)=> sum + Number(b.pax||0), 0);
+}
+
+function renderDateRow(){
+  const row = document.getElementById('dateRow');
+  row.innerHTML = '';
+  dates.forEach(d=>{
+    const iso = isoDate(d);
+    const chip = document.createElement('div');
+    chip.className = 'date-chip' + (iso === selectedDateISO ? ' active' : '');
+    chip.innerHTML = '<div class="d">'+DAY_NAMES[d.getDay()]+'</div><div class="n">'+d.getDate()+'</div><div class="d">'+MONTH_NAMES[d.getMonth()]+'</div>';
+    chip.onclick = ()=>{ selectedDateISO = iso; renderDateRow(); renderSlots(); };
+    row.appendChild(chip);
+  });
+}
+
+function renderSlots(){
+  const row = document.getElementById('slotsRow');
+  row.innerHTML = '';
+  const d = dates.find(dd=> isoDate(dd) === selectedDateISO);
+  if(!d) return;
+  SLOT_DEFS.forEach(slot=>{
+    const booked = slotBookedPax(selectedDateISO, slot.id);
+    const remaining = Math.max(0, CAPACITY - booked);
+    const full = remaining === 0;
+    const card = document.createElement('div');
+    card.className = 'slot-card';
+    card.innerHTML =
+      '<div class="slot-time">'+slot.label+'</div>'+
+      '<div class="slot-meta">'+(full ? 'Fully booked' : remaining+' of '+CAPACITY+' seats open')+'</div>'+
+      '<div class="seats-bar"><div class="seats-fill'+(full?' full':'')+'" style="width:'+((booked/CAPACITY)*100)+'%"></div></div>'+
+      '<button class="slot-book" '+(full?'disabled':'')+'>'+(full?'No seats left':'Book this class')+'</button>';
+    card.querySelector('.slot-book').onclick = ()=> openBookingModal(d, slot, remaining);
+    row.appendChild(card);
+  });
+}
+
+function openBookingModal(dateObj, slot, remaining){
+  pendingSlot = {dateISO: isoDate(dateObj), dateObj, slot, remaining};
+  const modal = document.getElementById('modalContent');
+  modal.innerHTML =
+    '<h3>Book your seat</h3>'+
+    '<div class="sub">'+DAY_NAMES[dateObj.getDay()]+' '+dateObj.getDate()+' '+MONTH_NAMES[dateObj.getMonth()]+' · '+slot.label+'</div>'+
+    '<div class="field"><label>Your name</label><input id="bkName" placeholder="Full name"></div>'+
+    '<div class="field"><label>Email or phone</label><input id="bkContact" placeholder="For your confirmation"></div>'+
+    '<div class="field"><label>Number of seats</label><select id="bkPax"></select></div>'+
+    '<div class="field"><label>Notes (optional)</label><textarea id="bkNotes" placeholder="Allergies, occasion, requests"></textarea></div>'+
+    '<div class="form-error" id="bkError">Please fill in your name, contact, and seat count.</div>'+
+    '<div class="deposit-note">A $25 SGD per pax deposit secures your seat, payable by PayNow to the studio number on your confirmation email. The balance is paid on the day.</div>'+
+    '<div class="modal-actions"><button class="modal-close" onclick="closeModal()">Cancel</button><button class="btn-primary" style="flex:1" onclick="submitBooking()">Confirm booking</button></div>';
+  const paxSelect = document.getElementById('bkPax');
+  for(let i=1;i<=remaining;i++){
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i + (i===1?' seat':' seats');
+    paxSelect.appendChild(opt);
+  }
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  pendingSlot = null;
+}
+
+async function submitBooking(){
+  const name = document.getElementById('bkName').value.trim();
+  const contact = document.getElementById('bkContact').value.trim();
+  const pax = Number(document.getElementById('bkPax').value);
+  const notes = document.getElementById('bkNotes').value.trim();
+  const err = document.getElementById('bkError');
+  if(!name || !contact || !pax){
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+
+  await loadBookings();
+  const key = pendingSlot.dateISO + '_' + pendingSlot.slot.id;
+  const currentBooked = slotBookedPax(pendingSlot.dateISO, pendingSlot.slot.id);
+  if(currentBooked + pax > CAPACITY){
+    err.textContent = 'Sorry, only ' + (CAPACITY - currentBooked) + ' seats are left now. Please lower your seat count.';
+    err.style.display = 'block';
+    return;
+  }
+  if(!bookingsData[key]) bookingsData[key] = [];
+  bookingsData[key].push({name, contact, pax, notes, bookedAt: new Date().toISOString()});
+  await saveBookings();
+
+  const modal = document.getElementById('modalContent');
+  modal.innerHTML =
+    '<div class="confirm-view">'+
+    '<div class="confirm-blob blob"></div>'+
+    '<h3>You\'re booked</h3>'+
+    '<p class="sub" style="margin-top:8px">'+DAY_NAMES[pendingSlot.dateObj.getDay()]+' '+pendingSlot.dateObj.getDate()+' '+MONTH_NAMES[pendingSlot.dateObj.getMonth()]+' · '+pendingSlot.slot.label+'</p>'+
+    '<p style="color:var(--ink-soft);font-size:14px;margin:16px 0">A confirmation with PayNow details for your deposit is on its way to '+contact+'.</p>'+
+    '<button class="btn-primary" onclick="closeModal(); renderSlots();">Done</button>'+
+    '</div>';
+}
+
+function toggleDashboard(){
+  const dash = document.getElementById('dashboard');
+  dash.classList.toggle('open');
+  if(dash.classList.contains('open')) renderDashboard();
+}
+
+async function renderDashboard(){
+  await loadBookings();
+  const body = document.getElementById('dashBody');
+  body.innerHTML = '';
+  let rows = [];
+  Object.keys(bookingsData).sort().forEach(key=>{
+    const lastUnderscore = key.lastIndexOf('_');
+    const dateISO = key.substring(0, lastUnderscore);
+    const slotId = key.substring(lastUnderscore+1);
+    const slotDef = SLOT_DEFS.find(s=>s.id===slotId);
+    (bookingsData[key]||[]).forEach(b=>{
+      rows.push({dateISO, slotLabel: slotDef ? slotDef.label : slotId, b});
+    });
+  });
+  if(rows.length === 0){
+    body.innerHTML = '<tr class="empty-row"><td colspan="7">No bookings yet.</td></tr>';
+    return;
+  }
+  rows.forEach(r=>{
+    const slotId = r.slotLabel === SLOT_DEFS[0].label ? SLOT_DEFS[0].id : SLOT_DEFS[1].id;
+    const totalBooked = slotBookedPax(r.dateISO, slotId);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>'+r.dateISO+'</td><td>'+r.slotLabel+'</td><td>'+totalBooked+'/'+CAPACITY+'</td><td>'+r.b.name+'</td><td>'+r.b.contact+'</td><td>'+r.b.pax+'</td><td>'+(r.b.notes||'—')+'</td>';
+    body.appendChild(tr);
+  });
+}
+
+async function clearAllBookings(){
+  bookingsData = {};
+  await saveBookings();
+  renderDashboard();
+  renderSlots();
+}
+
+async function init(){
+  dates = generateDates();
+  selectedDateISO = isoDate(dates[0]);
+  await loadBookings();
+  renderDateRow();
+  renderSlots();
+}
+init();
+</script>
+
+</body>
+</html>
