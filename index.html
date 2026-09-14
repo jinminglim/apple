@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Computer Engineering</title>
+<style>
+  :root{
+    --bg: #0b1210;
+    --bg-raised: #10201b;
+    --line: #1e3a30;
+    --text: #eaf2ee;
+    --text-dim: #93a8a0;
+    --green: #4ade95;
+    --amber: #ffb347;
+    --red: #ff6b5b;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(11,18,16,0.88);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height: 60px;
+  }
+  .nav-mark{
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--green);
+    letter-spacing: 0.02em;
+  }
+  .nav-links{
+    display:flex;
+    gap: 24px;
+    list-style:none;
+    font-size: 0.92rem;
+  }
+  .nav-links a{
+    text-decoration:none;
+    color: var(--text-dim);
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover{ color: var(--text); }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding: 100px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .circuit-svg{
+    position: absolute;
+    top: 0; right: -60px;
+    width: 420px;
+    height: auto;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .circuit-svg .trace{
+    fill:none;
+    stroke: var(--line);
+    stroke-width: 2;
+  }
+  .circuit-svg .node{
+    fill: var(--bg);
+    stroke: var(--line);
+    stroke-width: 2;
+  }
+  .circuit-svg .node.live{
+    fill: var(--green);
+    stroke: var(--green);
+    filter: drop-shadow(0 0 6px rgba(74,222,149,0.7));
+    animation: pulse 2.6s ease-in-out 0.6s 1 both;
+  }
+  @keyframes pulse{
+    0%{ opacity: 0; transform: scale(0.4); transform-origin: center; }
+    45%{ opacity: 1; transform: scale(1.15); }
+    100%{ opacity: 1; transform: scale(1); }
+  }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--amber);
+    margin-bottom: 18px;
+    max-width: 460px;
+  }
+  h1{
+    font-size: clamp(2.1rem, 5vw, 3.2rem);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    max-width: 620px;
+    color: var(--text);
+  }
+  h1 .accent{ color: var(--green); }
+
+  .hero-sub{
+    margin-top: 22px;
+    max-width: 520px;
+    color: var(--text-dim);
+    font-size: 1.05rem;
+  }
+
+  .hero-cta{
+    margin-top: 34px;
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding: 11px 20px;
+    border-radius: 3px;
+    font-size: 0.92rem;
+    text-decoration:none;
+    border: 1px solid var(--line);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary{
+    background: var(--green);
+    color: #08130e;
+    border-color: var(--green);
+    font-weight: 600;
+  }
+  .btn-primary:hover{ background: #5ee6a3; }
+  .btn-ghost{
+    color: var(--text);
+  }
+  .btn-ghost:hover{ border-color: var(--green); color: var(--green); }
+  .btn:focus-visible, a:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding: 72px 0; border-top: 1px solid var(--line); }
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap: 12px;
+    margin-bottom: 34px;
+  }
+  .section-num{
+    font-family: var(--mono);
+    color: var(--green);
+    font-size: 0.85rem;
+  }
+  h2{
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  /* about */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .about-grid p{ color: var(--text-dim); margin-bottom: 14px; max-width: 60ch; }
+  .fact-list{
+    list-style:none;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg-raised);
+    padding: 18px 20px;
+  }
+  .fact-list li{
+    display:flex;
+    justify-content:space-between;
+    gap: 16px;
+    font-size: 0.88rem;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fact-list li:last-child{ border-bottom:none; }
+  .fact-list span:first-child{ color: var(--text-dim); }
+  .fact-list span:last-child{ text-align: right; font-family: var(--mono); font-size: 0.82rem; }
+
+  /* projects */
+  .project{
+    display:grid;
+    grid-template-columns: 90px 1fr;
+    gap: 22px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .project:last-child{ border-bottom:none; }
+  .project-led{
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    margin-top: 6px;
+    justify-self: center;
+  }
+  .led-green{ background: var(--green); box-shadow: 0 0 10px rgba(74,222,149,0.7); }
+  .led-amber{ background: var(--amber); box-shadow: 0 0 10px rgba(255,179,71,0.7); }
+  .led-red{ background: var(--red); box-shadow: 0 0 10px rgba(255,107,91,0.6); }
+
+  .project h3{ font-size: 1.08rem; font-weight: 600; margin-bottom: 6px; }
+  .project .stack{
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--amber);
+    margin-bottom: 10px;
+    display:block;
+  }
+  .project p{ color: var(--text-dim); max-width: 62ch; font-size: 0.95rem; }
+
+  /* skills */
+  .skill-rows{ display:flex; flex-direction:column; gap: 14px; }
+  .skill-row{
+    display:grid;
+    grid-template-columns: 150px 1fr;
+    align-items:center;
+    gap: 16px;
+  }
+  .skill-row .label{ font-size: 0.92rem; color: var(--text); }
+  .track{
+    height: 6px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow:hidden;
+  }
+  .fill{ height:100%; background: var(--green); border-radius: 3px 0 0 3px; }
+
+  /* contact */
+  .contact-box{
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    border-radius: 4px;
+    padding: 34px;
+    text-align:left;
+  }
+  .contact-box h2{ margin-bottom: 10px; }
+  .contact-box p{ color: var(--text-dim); margin-bottom: 24px; max-width: 50ch; }
+  .contact-links{ display:flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.9rem; }
+  .contact-links a{ text-decoration: underline; text-underline-offset: 3px; color: var(--green); }
+
+  footer{
+    padding: 30px 0 50px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-family: var(--mono);
+  }
+
+  @media (max-width: 700px){
+    .about-grid{ grid-template-columns: 1fr; }
+    .circuit-svg{ display:none; }
+    .project{ grid-template-columns: 24px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="nav-mark">&lt;YN/&gt;</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="circuit-svg" viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path class="trace" d="M400 40 H260 V100 H180 V40 H80"/>
+    <path class="trace" d="M400 140 H300 V220 H200"/>
+    <path class="trace" d="M180 100 V260 H320 V320"/>
+    <path class="trace" d="M80 40 V180 H0"/>
+    <path class="trace" d="M200 220 V380 H340"/>
+    <circle class="node" cx="260" cy="40" r="5"/>
+    <circle class="node" cx="180" cy="100" r="5"/>
+    <circle class="node" cx="80" cy="40" r="5"/>
+    <circle class="node" cx="300" cy="140" r="5"/>
+    <circle class="node live" cx="200" cy="220" r="6"/>
+    <circle class="node" cx="320" cy="260" r="5"/>
+    <circle class="node" cx="320" cy="320" r="5"/>
+    <circle class="node" cx="200" cy="380" r="5"/>
+    <circle class="node" cx="80" cy="180" r="5"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="eyebrow">Computer Engineering, SIT Singapore — Class of 2030</div>
+    <h1>Building things at the point where <span class="accent">hardware meets code</span>.</h1>
+    <p class="hero-sub">
+      I just finished National Service and I'm starting Computer Engineering at SIT.
+      Right now that means teaching myself Python and Arduino one small, slightly
+      over-engineered project at a time.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">See what I've built</a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>
+            I'm 23, fresh out of NS, and about to start a Computer Engineering degree
+            at the Singapore Institute of Technology. Before classes start, I've been
+            using the time to actually build things instead of just reading about them —
+            starting with small Python programs and Arduino circuits.
+          </p>
+          <p>
+            The goal isn't just to pass modules. I want to get good enough at this to
+            eventually build and maintain my own tools and websites, and maybe turn
+            one of these side projects into something real.
+          </p>
+        </div>
+        <ul class="fact-list">
+          <li><span>Status</span><span>Prospective student, SIT</span></li>
+          <li><span>Track</span><span>Computer Engineering</span></li>
+          <li><span>Background</span><span>NS, completed 2026</span></li>
+          <li><span>Currently</span><span>Python + Arduino</span></li>
+          <li><span>Looking for</span><span>projects, ideas, feedback</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2>Projects</h2>
+      </div>
+
+      <div class="project">
+        <span class="project-led led-green"></span>
+        <div>
+          <h3>Arduino Traffic Light System</h3>
+          <span class="stack">Arduino · C++ · LEDs · Buzzer</span>
+          <p>
+            A traffic light controller built from three LEDs and a buzzer, wired
+            through a shared ground rail. Started as a simple red/yellow/green
+            sequencer and is being rebuilt as a proper state machine with audio
+            patterns and a night mode. Next step is adding a pedestrian button and
+            an ultrasonic sensor for adaptive timing once I've got more jumper wires.
+          </p>
+        </div>
+      </div>
+
+      <div class="project">
+        <span class="project-led led-amber"></span>
+        <div>
+          <h3>Patient Monitor Concept</h3>
+          <span class="stack">Arduino · Signal states</span>
+          <p>
+            A repurpose of the traffic light hardware into a monitoring concept:
+            green for a normal heartbeat, yellow for a warning state, and red with
+            a constant buzzer for an abnormal reading. Same components, different
+            problem — a good exercise in designing state logic that means something.
+          </p>
+        </div>
+      </div>
+
+      <div class="project">
+        <span class="project-led led-red"></span>
+        <div>
+          <h3>Mallet Slots</h3>
+          <span class="stack">Python</span>
+          <p>
+            A Python slot machine game built while learning the language from
+            scratch, following an earlier number-guessing game project. Focused on
+            getting comfortable with control flow, randomness, and structuring a
+            small program end to end.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2>Currently learning</h2>
+      </div>
+      <div class="skill-rows">
+        <div class="skill-row">
+          <span class="label">Python</span>
+          <div class="track"><div class="fill" style="width:45%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="label">HTML / CSS</span>
+          <div class="track"><div class="fill" style="width:35%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="label">Arduino / C++</span>
+          <div class="track"><div class="fill" style="width:40%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="label">Circuits &amp; wiring</span>
+          <div class="track"><div class="fill" style="width:30%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <h2>Let's talk</h2>
+        <p>
+          Open to project ideas, internships, or just talking shop about embedded
+          systems and web dev. Reach me here:
+        </p>
+        <div class="contact-links">
+          <a href="mailto:your.email@example.com">your.email@example.com</a>
+          <a href="https://github.com/yourusername">github.com/yourusername</a>
+          <a href="https://linkedin.com/in/yourusername">linkedin.com/in/yourusername</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 Your Name. Built by hand, one LED at a time.
+  </div>
+</footer>
+
+</body>
+</html>
