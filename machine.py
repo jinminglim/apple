@@ -283,5 +283,6 @@ dispense_drink("Coke")
 dispense_drink("Juice")
 dispense_drink("Water")
 dispense_drink("Sprite")
+dispense_drink("Water")
 
 print("Total drinks dispensed:", drink_count)
